@@ -23,15 +23,11 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
   $(function () {
-    let ds = io.connect('/', { query: 'uname=abdo' });
-    ds.on('current-sessions', data => {
-      console.log(JSON.stringify(data));
+    let ds = io.connect("/", { query: 'username=abdo' });
+    $('form').submit(e => {
+      e.preventDefault();
+      return false;
     });
-
-    ds.on('new-session', data => {
-      console.log(JSON.stringify(data));
-    });
-    ds.emit('create-session', 'urMama')
   });
 </script>
 </body>
