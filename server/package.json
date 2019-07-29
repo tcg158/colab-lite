@@ -1,0 +1,13 @@
+{
+  "name": "colite-server",
+  "version": "0.0.1",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "author": "tcg158",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  }
+}
