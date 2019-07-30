@@ -1,18 +1,11 @@
 import {
     ADD_CASE,
     CASES,
-    SESSION_CREATION_FORM,
-    SIGN_IN_FORM,
-    SIGN_UP_FORM,
     TASK_CREATION_FORM, TASK_HINTSFIELD,
-    TASK_INPUTFIELD, TASK_OUTPUTFIELD, TASK_WEIGHTFIELD, INVITATION_FORM, TASK_VIEW_FORM, TASKS, GET_TASKS, TASK_GRADE
+    TASK_INPUTFIELD, TASK_OUTPUTFIELD, TASK_WEIGHTFIELD, TASK_VIEW_FORM, TASKS, GET_TASKS, TASK_GRADE
 } from "../dataMapping/form";
 
 const initState = {
-    [SIGN_IN_FORM]: false,
-    [SIGN_UP_FORM]: false,
-    [INVITATION_FORM]: false,
-    [SESSION_CREATION_FORM]: false,
     [TASK_CREATION_FORM]: false,
     [TASK_VIEW_FORM]: false,
     [CASES]:[],
@@ -21,26 +14,6 @@ const initState = {
 
 const formReducer = (state = initState ,action)=>{
     switch (action.type) {
-        case SIGN_IN_FORM:
-            return {
-                ...state,
-                [SIGN_IN_FORM]: action.payload
-            };
-        case SIGN_UP_FORM:
-            return {
-                ...state,
-                [SIGN_UP_FORM]: action.payload
-            };
-        case SESSION_CREATION_FORM:
-            return {
-                ...state,
-                [SESSION_CREATION_FORM]: action.payload
-            };
-        case INVITATION_FORM:
-            return {
-                ...state,
-                [INVITATION_FORM]: action.payload
-            };
          case TASK_CREATION_FORM:
             return {
                 ...state,

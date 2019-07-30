@@ -1,21 +1,5 @@
-@import "dashboard.css";
-@import "profile.css";
 @import "usersTab.css";
-@import "errorPage.css";
 @import "session.css";
-@import "select.css";
-@import "./ej2/ej2-base-material.css";
-@import "./ej2/ej2-buttons-material.css";
-@import "./ej2/ej2-grids-material.css";
-@import "./ej2/ej2-icons-material.css";
-@import "./ej2/ej2-inputs-material.css";
-@import "./ej2/ej2-layouts-material.css";
-@import "./ej2/ej2-navigations-material.css";
-@import "./ej2/ej2-popups-material.css";
-@import "./ej2/ej2-react-dropdowns-material.css";
-@import "./ej2/ej2-react-filemanager-material.css";
-@import "./ej2/ej2-react-navigations-material.css";
-@import "./ej2/ej2-splitbuttons-material.css";
 
 html{
     height: 100%;
@@ -25,13 +9,13 @@ html{
 body {
     height: 100%;
     width: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 div[disabled]
@@ -43,11 +27,6 @@ div[disabled]
 .outerDiv{
     height: 100%;
     width: 100%;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }
 
 .icons{

@@ -3,12 +3,12 @@ import {Spinner} from 'react-bootstrap';
 import SessionLayout from "./SessionLayout";
 import SessionPanel from "./SessionPanel";
 import {connect} from "react-redux";
-import {joinSession} from "../../store/actions/sessionActions/joinSessionAction";
 import {DISCONNECT_FROM_SESSION_SOCKET, SESSION_SOCKET} from "../../store/dataMapping/socket";
 import {SESSION_CONNECTED_USERS} from "../../store/dataMapping/session";
 import axios from "axios";
-import {USERNAME} from "../../store/dataMapping/user";
+import {USERNAME} from "../../store/dataMapping/auth";
 import SessionToolbar from "./SessionToolbar";
+import io from "socket.io-client";
 
 
 
@@ -25,15 +25,30 @@ class Session extends Component{
 
     };
 
-    componentDidMount() {
-        this.props.joinSession(this.state.id,()=>{
-           this.setState({loaded:true});
-        });
+    componentWillMount() {
+        const socket = io.connect(
+            "/"+this.state.id,
+            {query:'uname='+sessionStorage.getItem("username")
+            });
+        if(socket)
+        {
+            socket.on('error', ()=>{
+                console.log('Connection Failed');
+            });
+            socket.on('connect', ()=>{
+                this.setState({loaded:true});
+                console.log('Connected');
+            });
+            socket.on('disconnect', ()=> {
+                console.log('Disconnected');
+            });
+        }
+        this.props.sessionSocket(socket);
     }
 
 
     componentWillUnmount() {
-        this.setState({loaded: true});
+        this.setState({loaded: false});
         this.props.disconnect();
     }
 
@@ -68,7 +83,7 @@ class Session extends Component{
                 <SessionToolbar/>
                 <div className={"wrapper"} style={{color:'white'}}>
                     <SessionPanel />
-                    <SessionLayout handler={this.handler} taskButtonValue={"Task"} rooms={["Master","Mourad"]}/>
+                    <SessionLayout handler={this.handler} taskButtonValue={"Task"}/>
                 </div>
             </div>
         );
@@ -83,9 +98,9 @@ const mapStateToProps = (combinedReducer)=> {
 
 const mapDispatchToProps = (dispatch)=>{
     return {
-        joinSession: (id,callback)=> dispatch(joinSession(id,callback)),
         updateSessionUsers: (users)=> dispatch({type: SESSION_CONNECTED_USERS , payload: users}),
-        disconnect: ()=> dispatch({type: DISCONNECT_FROM_SESSION_SOCKET})
+        disconnect: ()=> dispatch({type: DISCONNECT_FROM_SESSION_SOCKET}),
+        sessionSocket: (socket)=> dispatch({type: SESSION_SOCKET , payload: socket})
     };
 };
 

@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import {Button, Nav, Row} from "react-bootstrap";
 import {MDBIcon} from "mdbreact";
-import {ACE_FONT_SIZE, ACE_OUTPUT_READONLY, ACE_OUTPUT_TEXT, ACE_THEME} from "../../store/dataMapping/ace";
+import {
+    ACE_FONT_SIZE,
+    ACE_OUTPUT_READONLY,
+    ACE_OUTPUT_TEXT,
+    ACE_THEME,
+    EXECUTION_OUTPUT
+} from "../../store/dataMapping/ace";
 import {connect} from "react-redux";
 import {OPEN_FORM, TASK_CREATION_FORM, TASK_VIEW_FORM} from "../../store/dataMapping/form";
 import TaskCreationForm from "../Tasks/TaskCreationForm";
-import {MY_ROLE} from "../../store/dataMapping/sessionUsersData";
 import TaskViewForm from "../Tasks/TaskViewForm";
 import {SESSION_ID} from "../../store/dataMapping/session";
-import {execute} from "../../store/actions/sessionActions/executeAction";
+import {SESSION_SOCKET} from "../../store/dataMapping/socket";
+import {MY_SESSION_ROLE} from "../../store/dataMapping/session";
 
 
 class SessionToolbar extends Component{
@@ -18,7 +24,7 @@ class SessionToolbar extends Component{
     };
 
     openForm = ()=>{
-        if(this.props.role === "ghost") {
+        if(!this.props.role) {
             this.props.openTaskViewForm();
         }
         else {
@@ -27,8 +33,9 @@ class SessionToolbar extends Component{
     };
 
     run = ()=>{
-        /*this.props.changeAceReadonly(false);*/
-        this.props.execute({sessionId: this.props[SESSION_ID], inputs: [this.props[ACE_OUTPUT_TEXT]]});
+        this.props.socket.emit("run", [this.props[ACE_OUTPUT_TEXT]], (output)=>{
+            this.props.handleChange(EXECUTION_OUTPUT,output.msgs)
+        });
     };
 
 
@@ -41,8 +48,7 @@ class SessionToolbar extends Component{
                             this.props.role === "owner" || this.props.role === "mod" ? (<Button
                                 href={"http://192.168.43.173:4213/reports/"+this.props.sessionId+"/grades-pdf"}
                                 target={"_blank"}
-                                style={{marginRight: "0px",color: "white"}}
-                                variant={"outline-success"}>
+                                style={{marginRight: "0px",color: "white"}}>
                                 My Grades
                             </Button>
                             ):("")
@@ -65,20 +71,20 @@ class SessionToolbar extends Component{
                     <Nav.Item>
                         <span className="custom-dropdown small">
                             <select id={ACE_THEME} onChange={this.handleChange} value={this.props[ACE_THEME]}>
-                                <option value={"tomorrow"}>tomorrow</option>
-                                <option value={"github"}>github</option>
-                                <option value={"monokai"}>monokai</option>
-                                <option value={"terminal"}>terminal</option>
+                                <option value={"tomorrow"}>Tomorrow</option>
+                                <option value={"github"}>Github</option>
+                                <option value={"monokai"}>Monokai</option>
+                                <option value={"terminal"}>Terminal</option>
                             </select>
                         </span>
                     </Nav.Item>
                     <Nav.Item>
-                        <Button className={"barButtons"} size={"sm"} variant={"success"} onClick={this.openForm}><MDBIcon icon="tasks" />  {this.props.role === "ghost" ? "View Task":"Create Task" }</Button>
+                        <Button className={"barButtons"} size={"sm"} onClick={this.openForm}><MDBIcon icon="tasks" />  {!this.props.role ? "View Task":"Create Task" }</Button>
                         <TaskCreationForm/>
                         <TaskViewForm/>
                     </Nav.Item>
                     <Nav.Item>
-                        <Button className={"barButtons"} onClick={this.run} size={"sm"} variant={"success"}><MDBIcon icon="play" />{" Run"}</Button>
+                        <Button className={"barButtons"} onClick={this.run} size={"sm"}><MDBIcon icon="play" />{" Run"}</Button>
                     </Nav.Item>
                 </Nav>
             </Row>
@@ -92,8 +98,9 @@ const mapStateTpProps=(combinedReducer)=>{
         [ACE_OUTPUT_TEXT]: combinedReducer.editor[ACE_OUTPUT_TEXT],
         [ACE_THEME]: combinedReducer.editor[ACE_THEME],
         [ACE_FONT_SIZE]: combinedReducer.editor[ACE_FONT_SIZE],
-        role: combinedReducer.sessionData[MY_ROLE],
-        sessionId: combinedReducer.sessionData[SESSION_ID]
+        role: combinedReducer.sessionData[MY_SESSION_ROLE],
+        sessionId: combinedReducer.sessionData[SESSION_ID],
+        socket: combinedReducer.sockets[SESSION_SOCKET]
     };
 };
 const mapDispatchTpProps=(dispatch)=> {
@@ -102,7 +109,6 @@ const mapDispatchTpProps=(dispatch)=> {
         openTaskCreationForm: ()=> dispatch({type:TASK_CREATION_FORM, payload: OPEN_FORM}),
         openTaskViewForm: ()=> dispatch({type:TASK_VIEW_FORM, payload: OPEN_FORM}),
         changeAceReadonly: (readonly)=> dispatch({type: ACE_OUTPUT_READONLY, payload: readonly}),
-        execute: (data)=> dispatch(execute(data))
     };
 };
 

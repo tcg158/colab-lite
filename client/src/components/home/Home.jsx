@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {InputGroup, FormControl, Button, Image} from 'react-bootstrap';
 import {connect} from "react-redux";
-import {CONNECT_TO_DEFAULT_SOCKET, DEFAULT_SOCKET} from "../../store/dataMapping/socket";
-import {PUBLIC_SESSIONS} from "../../store/dataMapping/session";
-import io from "socket.io-client";
-import {AUTHENTICATED} from "../../store/dataMapping/auth";
+import {login} from "../../store/actions/handshake";
+import Form from "react-bootstrap/Form";
 
 class Home extends Component {
     state={
@@ -23,13 +21,19 @@ class Home extends Component {
         this.setState({username: e.target.value});
     };
 
-    connect = ()=>{
-        this.props.connect(this.state.username);
+    logIn = (e)=>{
+        if(e.currentTarget.checkValidity()) {
+            e.preventDefault();
+            this.props.logIn(this.state.username,()=>{
+                this.props.history.push("/dashboard");
+            });
+        }
+
     };
 
     render() {
         return (
-            <div className={"homeImage"}>
+            <Form onSubmit={this.logIn} validated={true} className={"homeImage"}>
                 <Image
                     width={320}
                     height={180}
@@ -37,32 +41,32 @@ class Home extends Component {
                 />
                 <InputGroup size={"lg"}>
                     <FormControl
+                        required
                         onChange={this.handleChange}
                         style={{marginTop:"20%"}}
                         placeholder="Username"
                     />
                     <InputGroup.Append
                         style={{marginTop:"20%"}}>
-                        <Button onClick={this.connect}>Enter</Button>
+                        <Button type={"submit"}>Enter</Button>
                     </InputGroup.Append>
                 </InputGroup>
-                <small>{this.state.errorMsg}</small>
-            </div>
+                <small>{this.props.errorMsg}</small>
+            </Form>
         );
     }
 }
 
 const mapStateToProps = (rootReducer)=> {
     return{
-        [DEFAULT_SOCKET]: rootReducer.sockets[DEFAULT_SOCKET],
-        [PUBLIC_SESSIONS]: rootReducer.sessionStorage[PUBLIC_SESSIONS]
+        errorMsg: rootReducer.user.errorMsg
     }
 };
 
 const mapDispatchToProps = (dispatch)=>{
     return{
         changeBackGroundImage: (type, value)=> dispatch({type: type, payload:value}),
-        logIn: (username)=> dispatch({type:AUTHENTICATED, payload: username})
+        logIn: (username,callback)=> dispatch(login(username,callback))
     };
 };
 

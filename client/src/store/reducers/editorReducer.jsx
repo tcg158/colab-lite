@@ -6,7 +6,7 @@ import {
     ACE_OUTPUT_READONLY,
     EXECUTION_OUTPUT, ACE_CURRENT_USER_VIEW, ACE_INPUT_READONLY
 } from "../dataMapping/ace";
-import {USERNAME} from "../dataMapping/user";
+import {USERNAME} from "../dataMapping/auth";
 
 const initState = {
     [ACE_THEME]: "tomorrow",
