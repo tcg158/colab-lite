@@ -1,0 +1,139 @@
+#loader {
+    color: #008cff;
+    height: 35px;
+    left: 45%;
+    position: absolute;
+    top: 45%;
+    width: 30%;
+}
+
+#treeparent {
+    display: block;
+    max-width: 350px;
+    max-height: 350px;
+    margin: auto;
+    overflow: auto;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+}
+.custom .e-list-parent .e-ul{
+    margin-left: -16px;
+}
+.custom .e-list-item .e-fullrow {
+    height: 44px;
+}
+.custom .e-list-item .e-list-text {
+    width: 100%;
+    line-height: normal;
+}
+.custom .e-icons {
+    margin-top: -6px;
+}
+.invitationImage{
+    float: left;
+    margin: 4px 5px 1px 3px;
+    height: 38px;
+    width: 35px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.invitationUser {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 3px 0 0;
+}
+
+
+.eimage {
+    float: left;
+    margin: 4px 5px 1px 3px;
+    height: 38px;
+    width: 35px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+.ename {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 3px 0 0;
+}
+.ejob {
+    font-size: 11px;
+    opacity: .60;
+    margin-top: -4px;
+}
+.custom .e-list-item .e-level-2{
+    /*height: 35px;*/
+}
+
+.progressbarDiv{
+    width: 180px;
+    margin-left: 43px;
+}
+.progressbar {
+    height: 8px;
+    width: 100%;
+    font-size: 10px;
+    color: black;
+    background: none;
+}
+
+.formGroup{
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-left: 58px;
+}
+.formGroupItem{
+    margin-bottom: 10px;
+}
+
+.parent{
+    width: 80%;
+    cursor: pointer;
+    background-color: white;
+}
+
+.nav-pills .nav-link.active{
+    background-color: #28a745;
+}
+
+.mydiv{
+    flex: 0 0 75%;
+    margin-left: -14px;
+    width: 75%;
+    padding-right: 15px;
+}
+.user
+{
+    content: "";
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-top: 20px;
+    transform: rotate(-45deg);
+}
+
+.user .toggled{
+
+    content: "";
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    margin-top: 20px;
+    transform: rotate(-45deg);
+    animation-name: example;
+    animation-duration: 0.4s;
+}
+
+@keyframes example {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(45deg);
+    }
+}
+

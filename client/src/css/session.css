@@ -1,0 +1,56 @@
+.wrapper{
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 530px;
+    max-height: 530px;
+    /*backgroundColor:"#232937;*/
+
+}
+.sessionBody{
+    height: 560px;
+    /*background-image: linear-gradient(to top, #4f4f4d, #40403e, #31312f, #232321, #161614);*/
+    width: 99%;
+    margin-left: 6px;
+    margin-top: 3px;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+}
+
+.barButtons{
+    margin-left: 5px;
+    height: 27px;
+    margin-top: 3px;
+    padding-top: 1px;
+}
+
+.panelSection{
+    background-color: white;
+    position: relative;
+    overflow: auto;
+    height: 100%;
+    color: black;
+    margin-left: -12px;
+}
+
+.codingSection{
+    height: 100%;
+}
+
+.handle{
+    background-color: #232937;
+    height: 1%;
+    cursor: row-resize;
+}
+
+.content{
+    height: 100%;
+    width: 100%;
+}
+
+
+.textareaLayout{
+    position: fixed;
+    height: 100%;
+    resize: none;
+}

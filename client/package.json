@@ -1,0 +1,43 @@
+{
+  "name": "colite-client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://192.168.8.100:4213",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "mdbreact": "^4.18.1",
+    "react": "^16.8.6",
+    "react-ace": "^7.0.2",
+    "react-bootstrap": "^1.0.0-beta.10",
+    "react-dom": "^16.8.6",
+    "react-draggable": "^3.3.0",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.2.0",
+    "react-router": "latest"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
