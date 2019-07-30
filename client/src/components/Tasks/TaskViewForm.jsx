@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Button, Col, Dropdown, DropdownButton, Form, Modal, Row} from "react-bootstrap";
-import {CLOSE_FORM, TASK_VIEW_FORM, TASKS} from "../../store/dataMapping/form";
+import {CLOSE_FORM, TASK_GRADE, TASK_VIEW_FORM, TASKS} from "../../store/dataMapping/form";
 import {connect} from "react-redux";
 import {SESSION_ID} from "../../store/dataMapping/session";
-import {submitTask} from "../../store/actions/sessionActions/submitTaskAction";
+import {SESSION_SOCKET} from "../../store/dataMapping/socket";
 
 class TaskViewForm extends Component {
 
@@ -17,11 +17,9 @@ class TaskViewForm extends Component {
     };
 
     submitTask = (e)=>{
-        let submitData={
-            sessionId: this.props.sessionId,
-            taskId: e.target.id
-        };
-        this.props.submitTask(submitData);
+        this.props.socket.emit("run-task", e.target.id, (taskResult)=>{
+            this.props.updateTaskResult(taskResult);
+        });
     };
 
     task =()=> {
@@ -94,6 +92,7 @@ class TaskViewForm extends Component {
 
 const mapStateToProps = (combinedReducer)=>{
     return{
+        socket: combinedReducer.sockets[SESSION_SOCKET],
         display: combinedReducer.forms[TASK_VIEW_FORM],
         data: combinedReducer.forms[TASKS],
         sessionId: combinedReducer.sessionData[SESSION_ID]
@@ -103,7 +102,7 @@ const mapStateToProps = (combinedReducer)=>{
 const mapDispatchToProps = (dispatch)=>{
     return{
         closeTaskForm: ()=> dispatch({type:TASK_VIEW_FORM, payload: CLOSE_FORM}),
-        submitTask: (submitData)=> dispatch(submitTask(submitData))
+        updateTaskResult: (task)=> dispatch({type: TASK_GRADE , payload: task})
     };
 };
 

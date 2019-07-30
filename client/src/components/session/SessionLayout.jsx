@@ -27,7 +27,6 @@ class SessionLayout extends Component{
         resizing:false,
         CodeSectionHeight:70,
         OutputSectionHeight:29.01,
-
     };
 
     componentDidMount() {

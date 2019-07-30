@@ -8,7 +8,10 @@ import {connect} from "react-redux";
 
 class App extends Component {
 
-
+    componentWillUnmount() {
+        localStorage.clear();
+        console.log("heeeey");
+    }
 
     render() {
         return (
