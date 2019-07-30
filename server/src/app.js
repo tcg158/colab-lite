@@ -2,19 +2,20 @@ let express = require('express');
 let app = express();
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
-const logger = require('./thegreatlogger').logger;
+let logger = require('./logger').logger;
+
 app.use(express.static('public'));
 
 app.get('/handshake', (req, res) => {
-    logger.warn('handshake req');
+    logger.warn('handshake requested');
     if(Object.values(io.sockets.sockets).map(s => s.cldata.uname).includes(req.query.uname)) {
-        logger.error('handshake bad'); return res.sendStatus(403);
+        logger.error('handshake BAD'); return res.sendStatus(403);
     }
-    logger.info('handshake good'); return res.sendStatus(200);
+    logger.info('handshake GOOD'); return res.sendStatus(200);
 });
 
 function handshake(socket, next) {
-    logger.info('default: connection handshake: ' + JSON.stringify(socket.handshake.query.uname));
+    logger.info('default connection handshake: ' + JSON.stringify(socket.handshake.query.uname));
     if(socket.handshake.query && socket.handshake.query.uname && !Object.values(io.sockets.sockets).map(s => s.cldata.uname).includes(socket.handshake.query.uname)) {
         socket.cldata = {};
         socket.cldata.uname = socket.handshake.query.uname;
@@ -24,7 +25,7 @@ function handshake(socket, next) {
 
 io.use(handshake);
 io.on('connection', socket => {
-    logger.info('default: ' + socket.cldata.uname + ' connected!');
+    logger.info('default user ' + socket.cldata.uname + ' connected!');
 
     socket.join('default');
 
@@ -35,7 +36,7 @@ io.on('connection', socket => {
     socket.on('create-session', nspId => createNsp(io, nspId, socket.cldata.uname));
 
     socket.on('disconnect', () => {
-        logger.info('default: ' + socket.cldata.uname + ' disconnected!');
+        logger.info('default user ' + socket.cldata.uname + ' disconnected!');
         socket.removeAllListeners();
     });
 });
@@ -52,7 +53,7 @@ function createNsp(io, nspId, owner) {
         logger.info('Created Session: ' + nspId);
 
         nsp.use((socket, next) => {
-            logger.info('nsp: connection handshake: ' + JSON.stringify(socket.handshake.query.uname));
+            logger.info('nsp connection handshake: ' + JSON.stringify(socket.handshake.query.uname));
             if(socket.handshake.query && socket.handshake.query.uname) {
                 socket.cldata = {};
                 socket.cldata.uname = socket.handshake.query.uname;
@@ -61,14 +62,14 @@ function createNsp(io, nspId, owner) {
         });
 
         nsp.on('connection', socket => {
-            logger.info('nsp: ' + socket.cldata.uname + ' connected!');
+            logger.info('nsp user ' + socket.cldata.uname + ' connected!');
             socket.broadcast.emit('new-user', { 'usname': socket.cldata.uname, 'perm': socket.cldata.uname === nsp.cldata.owner });
             socket.emit('curent-users', Object.values(nsp.sockets).map(
                 s => { return { uname: s.cldata.uname, owner: s.cldata.uname === nsp.cldata.owner }; }
             ));
 
             socket.on('disconnect', () => {
-                logger.info('nsp: ' + socket.cldata.uname + ' disconnected!');
+                logger.info('nsp user ' + socket.cldata.uname + ' disconnected!');
                 socket.removeAllListeners();
             });
         });
