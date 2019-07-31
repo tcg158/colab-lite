@@ -37,6 +37,14 @@ class TaskCreationForm extends Component {
         })
     };
 
+    close = ()=>{
+      this.setState({taskName:""});
+      this.setState({taskDescription:""});
+      this.setState({taskHints:""});
+      this.setState({cases:[<CaseForm id={this.id}/>]});
+      this.props.closeTaskForm();
+    };
+
     submitTask = ()=>{
         let cases = [];
         this.props.data.forEach(function (item) {
@@ -64,7 +72,7 @@ class TaskCreationForm extends Component {
 
     render() {
         return (
-            <Modal size="lg" {...this.props} style={{color:"black"}} show={this.props.display} onHide={this.props.closeTaskForm} aria-labelledby="contained-modal-title-vcenter" centered>
+            <Modal size="lg" {...this.props} style={{color:"black"}} show={this.props.display} onHide={this.close} aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Header closeButton >
                     <Modal.Title id="contained-modal-title-vcenter">
                         <h4>Create Task</h4>

@@ -265,7 +265,7 @@ function createNsp(io, nspId, owner) {
                     result.msgs.push(cmpResult['error']);
                 }
 
-                nsp.cldata.grades = nsp.cldata.grades.filter(g => g.task !== taskId && g.user !== socket.cldata.uname);
+                nsp.cldata.grades = nsp.cldata.grades.filter(g => !(g.task == taskId && g.user == socket.cldata.uname));
 
                 let grade = {};
                 grade.task = taskId;
@@ -321,10 +321,31 @@ function createNsp(io, nspId, owner) {
             });
 
             socket.on("task-grades", (taskId, fn) => {
+                let users = Object.values(nsp.sockets).map(s => s.cldata.uname);
                 let grades = nsp.cldata.grades.filter(g => g.task === taskId).map(g => {
                     return { username: g.user, grade: ((g.score / g.max) * 100.0) };
                 });
+
+                for(let i = 0; i < users.length; ++i) {
+                    if(!grades.map(g => g.username).includes(users[i])) {
+                        grades.push({ username: users[i], grade: 0.0 })
+                    }
+                }
                 fn(grades);
+            });
+
+            socket.on('task-data', (fn) => {
+                let solved = [];
+                for(let i = 0; i < nsp.cldata.tasks.length; ++i) {
+                    solved.push(
+                        {
+                            label: nsp.cldata.tasks[i].name,
+                            y: nsp.cldata.grades.filter(g => g.task == nsp.cldata.tasks[i].taskId && g.score > 0).length
+                        }
+                    )
+                }
+                console.log(nsp.cldata.grades);
+                fn(solved);
             });
 
             socket.on('disconnect', () => {
