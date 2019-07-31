@@ -9,6 +9,7 @@ export const TASK_INPUTFIELD = "inputs";
 export const TASK_OUTPUTFIELD = "outputs";
 export const TASK_WEIGHTFIELD = "weight";
 export const TASK_HINTSFIELD = "hint";
+export const STAT_FORM = "stat form";
 
 
 export const OPEN_FORM = true;

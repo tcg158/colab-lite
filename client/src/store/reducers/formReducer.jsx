@@ -2,11 +2,12 @@ import {
     ADD_CASE,
     CASES,
     TASK_CREATION_FORM, TASK_HINTSFIELD,
-    TASK_INPUTFIELD, TASK_OUTPUTFIELD, TASK_WEIGHTFIELD, TASK_VIEW_FORM, TASKS, GET_TASKS, TASK_GRADE
+    TASK_INPUTFIELD, TASK_OUTPUTFIELD, TASK_WEIGHTFIELD, TASK_VIEW_FORM, TASKS, GET_TASKS, TASK_GRADE, STAT_FORM
 } from "../dataMapping/form";
 
 const initState = {
     [TASK_CREATION_FORM]: false,
+    [STAT_FORM]: false,
     [TASK_VIEW_FORM]: false,
     [CASES]:[],
     [TASKS]:[]
@@ -56,6 +57,11 @@ const formReducer = (state = initState ,action)=>{
         case TASK_WEIGHTFIELD:
             state[CASES][action.payload.index][TASK_WEIGHTFIELD] = action.payload.value;
             return state;
+        case STAT_FORM:
+            return {
+                ...state,
+                [STAT_FORM]: action.payload
+            };
         default:
             return state;
     }

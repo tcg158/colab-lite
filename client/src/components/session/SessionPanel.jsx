@@ -47,7 +47,7 @@ class SessionPanel extends Component{
         });
 
         socket.on("user-left",(user)=>{
-            this.updateUsers(USERNAME,user[USERNAME],"disabled",true);
+            this.updateUsers(USERNAME,user,"disabled",true);
         });
     }
 

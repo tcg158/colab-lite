@@ -9,12 +9,13 @@ import {
     EXECUTION_OUTPUT
 } from "../../store/dataMapping/ace";
 import {connect} from "react-redux";
-import {OPEN_FORM, TASK_CREATION_FORM, TASK_VIEW_FORM} from "../../store/dataMapping/form";
+import {OPEN_FORM, STAT_FORM, TASK_CREATION_FORM, TASK_VIEW_FORM} from "../../store/dataMapping/form";
 import TaskCreationForm from "../Tasks/TaskCreationForm";
 import TaskViewForm from "../Tasks/TaskViewForm";
 import {SESSION_ID} from "../../store/dataMapping/session";
 import {SESSION_SOCKET} from "../../store/dataMapping/socket";
 import {MY_SESSION_ROLE} from "../../store/dataMapping/session";
+import Graph from "./Graph";
 
 
 class SessionToolbar extends Component{
@@ -30,6 +31,10 @@ class SessionToolbar extends Component{
         else {
             this.props.openTaskCreationForm();
         }
+    };
+
+    stat = ()=>{
+        this.props.statView();
     };
 
     run = ()=>{
@@ -53,6 +58,14 @@ class SessionToolbar extends Component{
                             </Button>
                             ):("")
                         }
+                    </Nav.Item>
+                    <Nav.Item>
+                        {
+                            this.props.role ?
+                                (<Button className={"barButtons"} onClick={this.stat} size={"sm"}><MDBIcon icon="sort-numeric-down" />{" Statistics"}</Button>)
+                                :("")
+                        }
+                        <Graph/>
                     </Nav.Item>
                     <Nav.Item>
                         <span className="custom-dropdown small">
@@ -108,6 +121,7 @@ const mapDispatchTpProps=(dispatch)=> {
         handleChange: (type,value) => dispatch({type:type , payload: value}),
         openTaskCreationForm: ()=> dispatch({type:TASK_CREATION_FORM, payload: OPEN_FORM}),
         openTaskViewForm: ()=> dispatch({type:TASK_VIEW_FORM, payload: OPEN_FORM}),
+        statView: ()=> dispatch({type:STAT_FORM, payload: OPEN_FORM}),
         changeAceReadonly: (readonly)=> dispatch({type: ACE_OUTPUT_READONLY, payload: readonly}),
     };
 };
