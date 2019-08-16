@@ -30,7 +30,6 @@ $ npm install
 |Environment Variable|Description|Default
 |:-------|:----------|:------
 |PORT|The port number to start the server on|4213
-|JWT_KEY|The secret key used for JWT|colabisthebestproject
 
 - To modify the client's proxy to match your server's IP address:
 
